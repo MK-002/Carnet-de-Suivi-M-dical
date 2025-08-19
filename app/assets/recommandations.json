@@ -1,0 +1,5 @@
+[
+  { "categorie": "Sommeil", "titre": "Dormez au moins 7h par nuit.","description": "Un sommeil réparateur aide à renforcer l'immunité et la concentration." },
+  { "categorie": "Nutrition", "titre": "Éviter les repas trop gras le soir" ,"description": "Favorisez une alimentation légère pour mieux dormir." },
+  { "categorie": "Activité physique", "titre": "Marcher 30 minutes par jour" ,"description": "Une activité physique régulière réduit le risque de maladies chroniques." }
+]

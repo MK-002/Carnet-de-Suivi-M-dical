@@ -1,0 +1,16 @@
+[
+  {
+    "NomDocteur": "Dr. Nadia Karim",
+    "specialite": "Cardiologue",
+    "date": "2025-08-10T10:00:00",
+    "location": "Clinique Atlas",
+    "status": "à venir"
+  },
+  {
+    "NomDocteur": "Dr. Hicham El Fassi",
+    "specialite": "Dermatologue",
+    "date": "2025-07-20T14:30:00",
+    "location": "Centre Ibn Sina",
+    "status": "passé"
+  }
+]
