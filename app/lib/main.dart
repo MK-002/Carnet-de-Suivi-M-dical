@@ -34,32 +34,32 @@ class _MyAppState extends State<MyApp> {
         path: '/',
         builder: (context, state) => MainScaffold(
           title: 'Accueil',
-          child: HomeScreen(),
           onToggleTheme: toggleTheme,
+          child: HomeScreen(),
         ),
       ),
       GoRoute(
         path: '/appointments',
         builder: (context, state) => MainScaffold(
           title: 'Mes Rendez-vous',
-          child: AppointmentsScreen(),
           onToggleTheme: toggleTheme,
+          child: AppointmentsScreen(),
         ),
       ),
       GoRoute(
         path: '/dossier',
         builder: (context, state) => MainScaffold(
           title: 'Dossier Médical',
-          child: DossierScreen(),
           onToggleTheme: toggleTheme,
+          child: DossierScreen(),
         ),
       ),
       GoRoute(
         path: '/recommandations',
         builder: (context, state) => MainScaffold(
           title: 'Recommandations Santé',
-          child: RecommandationsScreen(),
           onToggleTheme: toggleTheme,
+          child: RecommandationsScreen(),
         ),
       ),
     ],

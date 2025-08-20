@@ -1,22 +1,32 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../models/patient.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import '../widgets/appointment_card.dart';
+import '../models/patient.dart';
+import '../models/appointment.dart';
 
-class AppointmentsScreen extends StatelessWidget {
-  final List<RendezVous> rendezVousList = [
-    RendezVous(
-      medecin: "Dr. Ali",
-      specialite: "Cardiologue",
-      date: "2025-08-20",
-    ),
-    RendezVous(
-      medecin: "Dr. Sarah",
-      specialite: "Dermatologue",
-      date: "2025-08-25",
-    ),
-  ];
+class AppointmentsScreen extends StatefulWidget {
+  const AppointmentsScreen({super.key});
 
-  AppointmentsScreen({super.key});
+  @override
+  State<AppointmentsScreen> createState() => _AppointmentsScreenState();
+}
+
+class _AppointmentsScreenState extends State<AppointmentsScreen> {
+  late Future<List<Appointment>> futureAppointments;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAppointments = loadAppointments();
+  }
+
+  static Future<List<Appointment>> loadAppointments() async {
+    final String response =
+        await rootBundle.loadString('assets/rendezvous.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((json) => Appointment.fromJson(json)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +51,36 @@ class AppointmentsScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: rendezVousList
-                    .map((rendezVous) => Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: AppointmentCard(rendezVous: rendezVous),
-                        ))
-                    .toList(),
+              child: FutureBuilder<List<Appointment>>(
+                future: futureAppointments,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text("Erreur: ${snapshot.error}");
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text("Aucun rendez-vous trouvé");
+                  } else {
+                    final appointments = snapshot.data!;
+
+                    final rendezVousList = appointments.map((a) {
+                      return RendezVous(
+                        medecin: a.nomDocteur,
+                        specialite: a.specialite,
+                        date: a.date.toIso8601String(),
+                      );
+                    }).toList();
+
+                    return Column(
+                      children: rendezVousList
+                          .map((rendezVous) => Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: AppointmentCard(rendezVous: rendezVous),
+                              ))
+                          .toList(),
+                    );
+                  }
+                },
               ),
             ),
           ),
